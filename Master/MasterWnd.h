@@ -3,11 +3,11 @@
 
 namespace AceBear {
  
-    class CMaster : public CBaseWnd
+    class CMasterWnd : public CBaseWnd
     {
     public:
-        CMaster(HINSTANCE hInstApp);
-        virtual ~CMaster();
+        CMasterWnd(HINSTANCE hInstApp);
+        virtual ~CMasterWnd();
 
         static HINSTANCE GetAppInst();
 
@@ -18,6 +18,7 @@ namespace AceBear {
 
         BOOL OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);
         void OnDestroy(HWND hWnd);
+        void OnSize(HWND hwnd, UINT state, int cx, int cy);
     private:
         static const wchar_t c_wszClassName[];
         HINSTANCE m_hInstApp;

@@ -2,10 +2,10 @@
 //
 
 #include "stdafx.h"
-#include "Master.h"
+#include "MasterWnd.h"
 using namespace AceBear;
 
-CMaster *g_pMasterApp = NULL;
+CMasterWnd *g_pMasterApp = NULL;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -15,7 +15,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    CMaster master(hInstance);
+    CMasterWnd master(hInstance);
     g_pMasterApp = &master;
 
     DWORD dwRet = master.Init(L"MaSTeR", nullptr, master.CalcPos(), WS_OVERLAPPEDWINDOW);
@@ -33,22 +33,22 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 namespace AceBear
 {
-    CMaster::CMaster(HINSTANCE hInstApp)
+    CMasterWnd::CMasterWnd(HINSTANCE hInstApp)
         :m_hInstApp(hInstApp), m_hWndMain(0)
     {
     }
 
-    CMaster::~CMaster()
+    CMasterWnd::~CMasterWnd()
     {
 
     }
 
-    HINSTANCE CMaster::GetAppInst()
+    HINSTANCE CMasterWnd::GetAppInst()
     {
         return g_pMasterApp->m_hInstApp;
     }
 
-    RECT CMaster::CalcPos()
+    RECT CMasterWnd::CalcPos()
     {
         RECT rc;
         rc.left = ::GetSystemMetrics(SM_CXSCREEN) - 280;
@@ -58,7 +58,7 @@ namespace AceBear
         return rc;
     }
 
-    const wchar_t* CMaster::RegisterCls()
+    const wchar_t* CMasterWnd::RegisterCls()
     {
         WNDCLASSEX wcex;
         ::ZeroMemory(&wcex, sizeof(WNDCLASSEX));
@@ -77,10 +77,11 @@ namespace AceBear
         return m_wszClsName;
     }
 
-    LRESULT CMaster::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+    LRESULT CMasterWnd::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         switch (uMsg) {
             HANDLE_MSG(hWnd, WM_CREATE, OnCreate);
+            HANDLE_MSG(hWnd, WM_SIZE, OnSize);
             HANDLE_MSG(hWnd, WM_DESTROY, OnDestroy);
         default:
             return DefWindowProc(hWnd, uMsg, wParam, lParam);
@@ -88,20 +89,26 @@ namespace AceBear
         return 0L;
     }
 
-    BOOL CMaster::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct)
+    BOOL CMasterWnd::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct)
     {
         RECT rcMain;
         ::GetClientRect(hwnd, &rcMain);
 
         RECT rcTool = rcMain;
+        rcTool.top += 1;
         rcTool.bottom = rcTool.top + 50;
         m_wndTool.Init(L"ToolBox", this, rcTool);
         ::ShowWindow(hwnd, SW_SHOW);
         return TRUE;
     }
 
-    void CMaster::OnDestroy(HWND hWnd)
+    void CMasterWnd::OnDestroy(HWND hWnd)
     {
         ::PostQuitMessage(0);
+    }
+
+    void CMasterWnd::OnSize(HWND hwnd, UINT state, int cx, int cy)
+    {
+        m_wndTool.ReSize(cx, 50);
     }
 }

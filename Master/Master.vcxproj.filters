@@ -21,13 +21,13 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Master.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ToolWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Master.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ToolWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BaseWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MasterWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

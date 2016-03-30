@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BaseWnd.h"
-#include "Master.h"
+#include "MasterWnd.h"
 
 namespace AceBear
 {
@@ -25,7 +25,7 @@ namespace AceBear
     const wchar_t* CBaseWnd::RegisterCls()
     {
         WNDCLASSEX wcex;
-        HINSTANCE hInstApp = CMaster::GetAppInst();
+        HINSTANCE hInstApp = CMasterWnd::GetAppInst();
         if (!::GetClassInfoEx(hInstApp, m_wszClsName, &wcex)) {
             ::ZeroMemory(&wcex, sizeof(WNDCLASSEX));
             wcex.cbSize = sizeof(WNDCLASSEX);
