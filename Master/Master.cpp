@@ -63,7 +63,7 @@ namespace AceBear
         wcex.hInstance = m_hInstApp;
         wcex.hIcon = ::LoadIcon(nullptr, IDI_APPLICATION);
         wcex.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
-        wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+        wcex.hbrBackground = (HBRUSH)(COLOR_APPWORKSPACE + 1);
         wcex.lpszClassName = c_wszClassName;
 
         return (RegisterClassExW(&wcex) != 0);
@@ -71,8 +71,9 @@ namespace AceBear
 
     BOOL CMaster::CreateWnd(int nCmdShow)
     {
+        int cx = ::GetSystemMetrics(SM_CXSCREEN);
         m_hWndMain = ::CreateWindow(c_wszClassName, c_wszClassName, WS_OVERLAPPEDWINDOW,
-            CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, m_hInstApp, nullptr);
+            cx - 280, 120, 240, 480, nullptr, nullptr, m_hInstApp, nullptr);
         if (!m_hWndMain) return FALSE;
 
         ShowWindow(m_hWndMain, nCmdShow);
