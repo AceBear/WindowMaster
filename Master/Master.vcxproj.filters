@@ -24,12 +24,24 @@
     <ClInclude Include="Master.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ToolWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Master.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

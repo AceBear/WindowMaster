@@ -11,5 +11,7 @@
 // Windows Header Files:
 #include <windows.h>
 #include <windowsx.h>
+#include <strsafe.h>
 
 // TODO: reference additional headers your program requires here
+#include <typeinfo>

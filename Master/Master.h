@@ -1,24 +1,28 @@
 #pragma once
+#include "ToolWnd.h"
 
 namespace AceBear {
  
-    class CMaster
+    class CMaster : public CBaseWnd
     {
     public:
         CMaster(HINSTANCE hInstApp);
         virtual ~CMaster();
-        DWORD Init(int nCmdShow);
-    protected:
-        static inline LRESULT MasterWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-        LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-        BOOL RegisterCls();
-        BOOL CreateWnd(int nCmdShow);
 
+        static HINSTANCE GetAppInst();
+
+        RECT CalcPos();
+    protected:
+        LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+        virtual const wchar_t* RegisterCls();
+
+        BOOL OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);
         void OnDestroy(HWND hWnd);
     private:
+        static const wchar_t c_wszClassName[];
         HINSTANCE m_hInstApp;
         HWND m_hWndMain;
-        static const wchar_t c_wszClassName[];
+        CToolWnd m_wndTool;
     };
 
 }
