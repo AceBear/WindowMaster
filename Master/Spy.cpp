@@ -99,4 +99,49 @@ namespace AceBear
 
         return TRUE;
     }
+
+    void CSpy::MoveSelectedUp(int range)
+    {
+        if (m_iSelected >= 0) {
+            vector<WNDESC>::iterator i = m_vWnds.begin() + m_iSelected;
+            SetWindowPos(i->hWnd, NULL, i->rc.left, i->rc.top - range, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+            UpdateOne(*i);
+        }
+    }
+
+    void CSpy::MoveSelectedDown(int range)
+    {
+        if (m_iSelected >= 0) {
+            vector<WNDESC>::iterator i = m_vWnds.begin() + m_iSelected;
+            SetWindowPos(i->hWnd, NULL, i->rc.left, i->rc.top + range, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+            UpdateOne(*i);
+        }
+    }
+
+    void CSpy::UpdateOne(WNDESC &desc)
+    {
+        RECT rc;
+        GetWindowRect(desc.hWnd, &rc);
+        ScreenToClient(this->m_hWnd, (POINT*)&rc.left);
+        ScreenToClient(this->m_hWnd, (POINT*)&rc.right);
+        desc.rc = rc;
+    }
+
+    void CSpy::MoveSelectedLeft(int range)
+    {
+        if (m_iSelected >= 0) {
+            vector<WNDESC>::iterator i = m_vWnds.begin() + m_iSelected;
+            SetWindowPos(i->hWnd, NULL, i->rc.left - range, i->rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+            UpdateOne(*i);
+        }
+    }
+
+    void CSpy::MoveSelectedRight(int range)
+    {
+        if (m_iSelected >= 0) {
+            vector<WNDESC>::iterator i = m_vWnds.begin() + m_iSelected;
+            SetWindowPos(i->hWnd, NULL, i->rc.left + range, i->rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+            UpdateOne(*i);
+        }
+    }
 }

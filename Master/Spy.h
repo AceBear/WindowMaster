@@ -26,11 +26,17 @@ namespace AceBear
         vector<WNDESC>& GetChildren() { return m_vWnds; }
         void Select(int iSelected);
 
+        void MoveSelectedUp(int range);
+        void MoveSelectedDown(int range);
+        void MoveSelectedLeft(int range);
+        void MoveSelectedRight(int range);
+
         void Switch(DWORD dwProcessId, DWORD dwThreadId, HWND hWnd);
         void Clear();
     protected:
         void FindBaseName();
         void FindChildren();
+        void UpdateOne(WNDESC &desc);
     private:
         DWORD m_dwProcessId;
         DWORD m_dwThreadId;

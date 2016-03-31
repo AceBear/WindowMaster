@@ -48,6 +48,7 @@ namespace AceBear
             HANDLE_MSG(hWnd, WM_DESTROY, OnDestroy);
             HANDLE_MSG(hWnd, WM_VSCROLL, OnVScroll);
             HANDLE_MSG(hWnd, WM_LBUTTONUP, OnLButtonUp);
+            HANDLE_MSG(hWnd, WM_KEYUP, OnKeyUp);
         default:
             return __super::WndProc(hWnd, uMsg, wParam, lParam);
         }
@@ -161,6 +162,35 @@ namespace AceBear
         ::SelectObject(hdc, fontOld);
         ::ReleaseDC(m_hWnd, hdc);
 
+        SetFocus(m_hWnd);
+
         Invalidate();
+    }
+
+    void CSpyWnd::OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
+    {
+        int range = GetKeyState(VK_SHIFT) & 0X8000? 1 : 8;
+
+        switch (vk)
+        {
+        case VK_UP:
+            m_pSpy->MoveSelectedUp(range);
+            Invalidate();
+            break;
+        case VK_DOWN:
+            m_pSpy->MoveSelectedDown(range);
+            Invalidate();
+            break;
+        case VK_LEFT:
+            m_pSpy->MoveSelectedLeft(range);
+            Invalidate();
+            break;
+        case VK_RIGHT:
+            m_pSpy->MoveSelectedRight(range);
+            Invalidate();
+            break;
+        default:
+            break;
+        }
     }
 }

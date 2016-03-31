@@ -21,6 +21,7 @@ namespace AceBear
         virtual void OnDestroy(HWND hwnd);
         virtual void OnVScroll(HWND hwnd, HWND hwndCtl, UINT code, int pos);
         virtual void OnLButtonUp(HWND hwnd, int x, int y, UINT keyFlags);
+        virtual void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags);
     private:
         CSpy *m_pSpy;
         HFONT m_fontSimSun;
