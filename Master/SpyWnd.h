@@ -12,11 +12,19 @@ namespace AceBear
         virtual ~CSpyWnd();
 
         void SetSpy(CSpy *pSpy) { m_pSpy = pSpy; }
+        void UpdateScrollInfo();
     protected:
-            LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-            virtual void OnPaint(HWND hwnd);
+        LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+        virtual void OnPaint(HWND hwnd);
+        virtual void OnSize(HWND hwnd, UINT state, int cx, int cy);
+        virtual BOOL OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);
+        virtual void OnDestroy(HWND hwnd);
+        virtual void OnVScroll(HWND hwnd, HWND hwndCtl, UINT code, int pos);
     private:
         CSpy *m_pSpy;
+        HFONT m_fontSimSun;
+        static const int c_yGap = 4;
+        int m_yBase = 0;
     };
 
 }

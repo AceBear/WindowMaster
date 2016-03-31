@@ -81,11 +81,12 @@ namespace AceBear
         SetCursor(::LoadCursor(nullptr, IDC_ARROW));
         ::ReleaseCapture();
 
-        m_pSpy->Switch(dwProcessId, dwThreadId);
+        m_pSpy->Switch(dwProcessId, dwThreadId, hTargetWnd);
 
         // wchar_t buf[128];
         // StringCchPrintf(buf, 128, L"0x%x ->%d:%d\n", hTargetWnd, dwProcessId, dwThreadId);
         // ::OutputDebugString(buf);
+        // BOOL bRet = ::SetWindowPos(hTargetWnd, NULL, 100, 100, 800, 600, SWP_NOOWNERZORDER);
     }
 
     void CToolWnd::OnMouseMove(HWND hwnd, int x, int y, UINT keyFlags)

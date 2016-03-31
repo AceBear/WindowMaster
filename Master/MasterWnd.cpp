@@ -114,7 +114,7 @@ namespace AceBear
 
         RECT rcSpy = rcMain;
         rcSpy.top = rcTool.bottom + 1;
-        m_wndSpy.Init(L"Spy", this, rcSpy);
+        m_wndSpy.Init(L"Spy", this, rcSpy, WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE | WS_VSCROLL);
 
         ::ShowWindow(hwnd, SW_SHOW);
         return TRUE;
@@ -133,6 +133,7 @@ namespace AceBear
 
     void CMasterWnd::OnSwitchSpy(WPARAM wParam, LPARAM lParam)
     {
+        m_wndSpy.UpdateScrollInfo();
         m_wndSpy.Invalidate();
     }
 }
