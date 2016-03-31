@@ -43,6 +43,18 @@ namespace AceBear
         }
 
         m_vWnds.clear();
+        m_iSelected = -1;
+    }
+
+    void CSpy::Select(int iSelected)
+    {
+        if (iSelected < m_vWnds.size()) {
+            m_iSelected = iSelected;
+            vector<WNDESC>::iterator vSel = m_vWnds.begin() + iSelected;
+            for (vector<WNDESC>::iterator i = m_vWnds.begin(); i < m_vWnds.end(); i++) {
+                i->bSelected = (i == vSel);
+            }
+        }
     }
 
     void CSpy::FindBaseName()
@@ -76,6 +88,7 @@ namespace AceBear
         
         WNDESC desc;
         desc.hWnd = hwnd;
+        desc.bSelected = FALSE;
         GetWindowText(hwnd, desc.wszText, sizeof(desc.wszText) / sizeof(wchar_t));
         GetWindowRect(hwnd, &desc.rc);
         

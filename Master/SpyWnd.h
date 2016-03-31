@@ -20,9 +20,11 @@ namespace AceBear
         virtual BOOL OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);
         virtual void OnDestroy(HWND hwnd);
         virtual void OnVScroll(HWND hwnd, HWND hwndCtl, UINT code, int pos);
+        virtual void OnLButtonUp(HWND hwnd, int x, int y, UINT keyFlags);
     private:
         CSpy *m_pSpy;
         HFONT m_fontSimSun;
+        HBRUSH m_brSelected;
         static const int c_yGap = 4;
         int m_yBase = 0;
     };
