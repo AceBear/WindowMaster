@@ -8,12 +8,27 @@ namespace AceBear
 
     CBaseWnd::CBaseWnd()
     {
-        StringCchPrintf(m_wszClsName, sizeof(m_wszClsName) / sizeof(wchar_t), L"%S", typeid(this).name());
+        m_wszClsName[0] = 0;
     }
 
 
     CBaseWnd::~CBaseWnd()
     {
+    }
+
+    void CBaseWnd::ReSize(int width, int height)
+    {
+        ::SetWindowPos(m_hWnd, NULL, 0, 0, width, height, SWP_NOMOVE);
+    }
+
+    void CBaseWnd::Invalidate(BOOL bErase, const RECT *pRC)
+    {
+        ::InvalidateRect(m_hWnd, pRC, bErase);
+    }
+
+    void CBaseWnd::PostMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+    {
+        ::PostMessage(m_hWnd, uMsg, wParam, lParam);
     }
 
     DWORD CBaseWnd::Init(wchar_t *pwszTitle, CBaseWnd *pParent, const RECT &rc, DWORD dwStyle)
@@ -24,6 +39,10 @@ namespace AceBear
 
     const wchar_t* CBaseWnd::RegisterCls()
     {
+        if (!wcslen(m_wszClsName)) {
+            StringCchPrintf(m_wszClsName, sizeof(m_wszClsName) / sizeof(wchar_t), L"%S", typeid(*this).name());
+        }
+
         WNDCLASSEX wcex;
         HINSTANCE hInstApp = CMasterWnd::GetAppInst();
         if (!::GetClassInfoEx(hInstApp, m_wszClsName, &wcex)) {
@@ -34,6 +53,7 @@ namespace AceBear
             wcex.lpfnWndProc = (WNDPROC)CBaseWnd::BaseWndProc;
             wcex.hInstance = hInstApp;
             wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+            wcex.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
             wcex.lpszClassName = m_wszClsName;
 
             RegisterClassEx(&wcex);

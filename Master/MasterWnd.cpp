@@ -2,7 +2,9 @@
 //
 
 #include "stdafx.h"
+#include "resource.h"
 #include "MasterWnd.h"
+
 using namespace AceBear;
 
 CMasterWnd *g_pMasterApp = NULL;
@@ -36,16 +38,22 @@ namespace AceBear
     CMasterWnd::CMasterWnd(HINSTANCE hInstApp)
         :m_hInstApp(hInstApp), m_hWndMain(0)
     {
+        m_wndTool.SetSpy(&m_spy);
+        m_wndSpy.SetSpy(&m_spy);
     }
 
     CMasterWnd::~CMasterWnd()
     {
-
     }
 
     HINSTANCE CMasterWnd::GetAppInst()
     {
         return g_pMasterApp->m_hInstApp;
+    }
+
+    CMasterWnd * CMasterWnd::GetMainWnd()
+    {
+        return g_pMasterApp;
     }
 
     RECT CMasterWnd::CalcPos()
@@ -60,6 +68,8 @@ namespace AceBear
 
     const wchar_t* CMasterWnd::RegisterCls()
     {
+        wcscpy_s(m_wszClsName, L"CMasterWnd");
+
         WNDCLASSEX wcex;
         ::ZeroMemory(&wcex, sizeof(WNDCLASSEX));
         wcex.cbSize = sizeof(WNDCLASSEX);
@@ -83,6 +93,9 @@ namespace AceBear
             HANDLE_MSG(hWnd, WM_CREATE, OnCreate);
             HANDLE_MSG(hWnd, WM_SIZE, OnSize);
             HANDLE_MSG(hWnd, WM_DESTROY, OnDestroy);
+        case UM_SWITCHSPY:
+            OnSwitchSpy(wParam, lParam);
+            break;
         default:
             return DefWindowProc(hWnd, uMsg, wParam, lParam);
         }
@@ -98,6 +111,11 @@ namespace AceBear
         rcTool.top += 1;
         rcTool.bottom = rcTool.top + 50;
         m_wndTool.Init(L"ToolBox", this, rcTool);
+
+        RECT rcSpy = rcMain;
+        rcSpy.top = rcTool.bottom + 1;
+        m_wndSpy.Init(L"Spy", this, rcSpy);
+
         ::ShowWindow(hwnd, SW_SHOW);
         return TRUE;
     }
@@ -110,5 +128,11 @@ namespace AceBear
     void CMasterWnd::OnSize(HWND hwnd, UINT state, int cx, int cy)
     {
         m_wndTool.ReSize(cx, 50);
+        m_wndSpy.ReSize(cx, cy - 50 - 1);
+    }
+
+    void CMasterWnd::OnSwitchSpy(WPARAM wParam, LPARAM lParam)
+    {
+        m_wndSpy.Invalidate();
     }
 }
