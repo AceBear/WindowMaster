@@ -88,7 +88,7 @@ namespace AceBear
 
         if (m_pSpy->GetProcessId()) {
             wchar_t buf[256];
-            ::StringCchPrintf(buf, sizeof(buf) / sizeof(wchar_t), L"%d:%s:%s",
+            ::wsprintf(buf, L"%d:%s:%s",
                 m_pSpy->GetProcessId(), m_pSpy->GetProcessName(), m_pSpy->GetWindowName());
             ::TextOut(hdc, x, y, buf, (int)wcslen(buf));
             y += yLine;
@@ -108,7 +108,7 @@ namespace AceBear
                 else
                     SetTextColor(hdc, RGB(0x00, 0x00, 0x00));
 
-                ::StringCchPrintf(buf, sizeof(buf) / sizeof(wchar_t), L"0x%x:%s:(%d,%d,%d,%d)",
+                ::wsprintf(buf, L"0x%x:%s:(%d,%d,%d,%d)",
                     i->hWnd, i->wszText, i->rc.left, i->rc.top, i->rc.right, i->rc.bottom);
                 ::TextOut(hdc, xPos, y, buf, (int)wcslen(buf));
                 y += yLine;

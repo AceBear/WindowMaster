@@ -40,7 +40,7 @@ namespace AceBear
     const wchar_t* CBaseWnd::RegisterCls()
     {
         if (!wcslen(m_wszClsName)) {
-            StringCchPrintf(m_wszClsName, sizeof(m_wszClsName) / sizeof(wchar_t), L"%S", typeid(*this).name());
+            wsprintf(m_wszClsName, L"%S", typeid(*this).name());
         }
 
         WNDCLASSEX wcex;
