@@ -48,7 +48,7 @@ namespace AceBear
 
     void CSpy::Select(int iSelected)
     {
-        if (iSelected < m_vWnds.size()) {
+        if (iSelected < (int)m_vWnds.size()) {
             m_iSelected = iSelected;
             vector<WNDESC>::iterator vSel = m_vWnds.begin() + iSelected;
             for (vector<WNDESC>::iterator i = m_vWnds.begin(); i < m_vWnds.end(); i++) {
