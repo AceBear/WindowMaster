@@ -20,7 +20,9 @@ namespace AceBear
         virtual BOOL OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);
         virtual void OnDestroy(HWND hwnd);
         virtual void OnVScroll(HWND hwnd, HWND hwndCtl, UINT code, int pos);
+        virtual void OnLButtonDown(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags);
         virtual void OnLButtonUp(HWND hwnd, int x, int y, UINT keyFlags);
+        virtual void OnMouseMove(HWND hwnd, int x, int y, UINT keyFlags);
         virtual void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags);
     private:
         CSpy *m_pSpy;
@@ -28,6 +30,7 @@ namespace AceBear
         HBRUSH m_brSelected;
         static const int c_yGap = 4;
         int m_yBase = 0;
+        BOOL m_bDrag = FALSE;
     };
 
 }

@@ -46,7 +46,7 @@ namespace AceBear
         m_iSelected = -1;
     }
 
-    void CSpy::Select(int iSelected)
+    BOOL CSpy::Select(int iSelected)
     {
         if (iSelected < (int)m_vWnds.size()) {
             m_iSelected = iSelected;
@@ -54,7 +54,9 @@ namespace AceBear
             for (vector<WNDESC>::iterator i = m_vWnds.begin(); i < m_vWnds.end(); i++) {
                 i->bSelected = (i == vSel);
             }
+            return TRUE;
         }
+        return FALSE;
     }
 
     void CSpy::FindBaseName()
@@ -100,6 +102,15 @@ namespace AceBear
         return TRUE;
     }
 
+    void CSpy::UpdateOne(WNDESC &desc)
+    {
+        RECT rc;
+        GetWindowRect(desc.hWnd, &rc);
+        ScreenToClient(this->m_hWnd, (POINT*)&rc.left);
+        ScreenToClient(this->m_hWnd, (POINT*)&rc.right);
+        desc.rc = rc;
+    }
+
     void CSpy::MoveSelectedUp(int range)
     {
         if (m_iSelected >= 0) {
@@ -118,15 +129,6 @@ namespace AceBear
         }
     }
 
-    void CSpy::UpdateOne(WNDESC &desc)
-    {
-        RECT rc;
-        GetWindowRect(desc.hWnd, &rc);
-        ScreenToClient(this->m_hWnd, (POINT*)&rc.left);
-        ScreenToClient(this->m_hWnd, (POINT*)&rc.right);
-        desc.rc = rc;
-    }
-
     void CSpy::MoveSelectedLeft(int range)
     {
         if (m_iSelected >= 0) {
@@ -142,6 +144,21 @@ namespace AceBear
             vector<WNDESC>::iterator i = m_vWnds.begin() + m_iSelected;
             SetWindowPos(i->hWnd, NULL, i->rc.left + range, i->rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
             UpdateOne(*i);
+        }
+    }
+
+    void CSpy::MoveSelected(POINT point)
+    {
+        if (m_iSelected >= 0) {
+            RECT rc;
+            GetClientRect(this->m_hWnd, &rc);
+
+            ScreenToClient(this->m_hWnd, &point);
+            if (PtInRect(&rc, point)) {
+                vector<WNDESC>::iterator i = m_vWnds.begin() + m_iSelected;
+                SetWindowPos(i->hWnd, HWND_TOP, point.x, point.y, 0, 0, SWP_NOSIZE);
+                UpdateOne(*i);
+            }
         }
     }
 }

@@ -24,12 +24,13 @@ namespace AceBear
         const wchar_t* GetProcessName() { return m_wszProcessName; }
         const wchar_t* GetWindowName() { return m_wszWindowName; }
         vector<WNDESC>& GetChildren() { return m_vWnds; }
-        void Select(int iSelected);
+        BOOL Select(int iSelected);
 
         void MoveSelectedUp(int range);
         void MoveSelectedDown(int range);
         void MoveSelectedLeft(int range);
         void MoveSelectedRight(int range);
+        void MoveSelected(POINT point);
 
         void Switch(DWORD dwProcessId, DWORD dwThreadId, HWND hWnd);
         void Clear();

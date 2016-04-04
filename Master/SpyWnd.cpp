@@ -47,7 +47,9 @@ namespace AceBear
             HANDLE_MSG(hWnd, WM_SIZE, OnSize);
             HANDLE_MSG(hWnd, WM_DESTROY, OnDestroy);
             HANDLE_MSG(hWnd, WM_VSCROLL, OnVScroll);
+            HANDLE_MSG(hWnd, WM_LBUTTONDOWN, OnLButtonDown);
             HANDLE_MSG(hWnd, WM_LBUTTONUP, OnLButtonUp);
+            HANDLE_MSG(hWnd, WM_MOUSEMOVE, OnMouseMove);
             HANDLE_MSG(hWnd, WM_KEYUP, OnKeyUp);
         default:
             return __super::WndProc(hWnd, uMsg, wParam, lParam);
@@ -143,8 +145,8 @@ namespace AceBear
         m_yBase = -pos;
         Invalidate();
     }
-
-    void CSpyWnd::OnLButtonUp(HWND hwnd, int x, int y, UINT keyFlags)
+    
+    void CSpyWnd::OnLButtonDown(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
     {
         HDC hdc = ::GetWindowDC(m_hWnd);
         HGDIOBJ fontOld = ::SelectObject(hdc, m_fontSimSun);
@@ -157,14 +159,36 @@ namespace AceBear
         int nSelected = y / yLine;
 
         // 最上面的一行不算
-        m_pSpy->Select(nSelected - 1);
+        BOOL bSelect = m_pSpy->Select(nSelected - 1);
 
         ::SelectObject(hdc, fontOld);
         ::ReleaseDC(m_hWnd, hdc);
 
         SetFocus(m_hWnd);
-
         Invalidate();
+
+        if (bSelect)
+        {
+            SetCapture(hwnd);
+            m_bDrag = TRUE;
+        }
+    }
+
+    void CSpyWnd::OnLButtonUp(HWND hwnd, int x, int y, UINT keyFlags)
+    {
+        if (m_bDrag) {
+            m_bDrag = FALSE;
+            ReleaseCapture();
+        }
+    }
+
+    void CSpyWnd::OnMouseMove(HWND hwnd, int x, int y, UINT keyFlags)
+    {
+        if (m_bDrag) {
+            POINT point;
+            GetCursorPos(&point);
+            m_pSpy->MoveSelected(point);
+        }
     }
 
     void CSpyWnd::OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
